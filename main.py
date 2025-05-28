@@ -2,7 +2,7 @@ import pygame
 import sys
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 from tank import Tank
-from enemy import Enemy
+from enemies import enemy
 from menu import show_menu
 
 pygame.init()
@@ -15,10 +15,8 @@ if menu_action == "quit":
     pygame.quit()
     sys.exit()
 
-# В дальнейшем сюда можно добавить обработку "settings"
-
 tank = Tank(100, 100)
-enemy = Enemy(400, 300)
+enemy1 = enemy(400, 300)
 
 running = True
 while running:
@@ -28,12 +26,24 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    tank.update()
-    enemy.update(tank.pos)
+        if event.type == pygame.KEYDOWN:
+         if event.key == pygame.K_SPACE:
+            tank.player_shoot()
 
-    screen.fill((30, 30, 30))
+    keys = pygame.key.get_pressed()
+
+    tank.update(keys)
+    enemy1.update(tank.pos)
+    for bullet in tank.bullets:
+        if bullet.get_rect().colliderect(enemy1.get_rect()):
+            enemy1.on_hit()
+
+# Удаление мёртвых пуль
+    tank.bullets = [b for b in tank.bullets if b.alive]
+
+    screen.fill((100, 100, 100))
     tank.draw(screen)
-    enemy.draw(screen)
+    enemy1.draw(screen)
     pygame.display.flip()
 
 pygame.quit()
