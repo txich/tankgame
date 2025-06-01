@@ -5,7 +5,7 @@ import random
 
 class Bullet():
     def __init__(self, pos, direction):
-        self.speed = 10
+        self.speed = 30
         self.direction = direction
         self.pos = pygame.Vector2(pos)
         self.surface = pygame.Surface((6, 6), pygame.SRCALPHA)
@@ -35,9 +35,9 @@ class Tank():
         self.angle = 0         # tank angle
         self.turret_angle = 0  # gun angle 
         self.speed = 0
-        self.max_speed = 5
-        self.acceleration = 0.05
-        self.rotation_speed = 2
+        self.max_speed = 4
+        self.acceleration = 0.03
+        self.rotation_speed = 1.5
 
         # tank width and height
         self.width = 60
@@ -77,9 +77,9 @@ class Tank():
         else:
             # deceleration
             if self.speed > 0:
-                self.speed -= self.acceleration / 2
+                self.speed -= self.acceleration 
             elif self.speed < 0:
-                self.speed += self.acceleration / 2
+                self.speed += self.acceleration
 
         # max spd
         if self.speed > self.max_speed:
@@ -115,13 +115,23 @@ class Tank():
         total_turret_angle = self.angle + self.turret_angle
         rotated_turret = pygame.transform.rotate(self.turret_surf, total_turret_angle)
         turret_rect = rotated_turret.get_rect(center=self.pos)
-        
-        
 
         # draw tank
         screen.blit(rotated_body, body_rect)
         screen.blit(rotated_turret, turret_rect)
 
+        # === Draw aiming line ===
+        aim_length = 9000  # длина линии прицела
+        rad_turret = math.radians(total_turret_angle)
+        aim_direction = pygame.Vector2(math.cos(rad_turret), -math.sin(rad_turret))
+        start_pos = self.pos
+        end_pos = self.pos + aim_direction * aim_length
+        # === Полупрозрачная линия прицела ===
+        aim_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        aim_color = (255, 0, 0, 50)  # RGBA: красный + 100 прозрачности (из 255)
+        pygame.draw.line(aim_surface, aim_color, start_pos, end_pos, 2)
+        screen.blit(aim_surface, (0, 0))
+
+        # draw bullets
         for bullet in self.bullets:
             bullet.draw(screen)
-
