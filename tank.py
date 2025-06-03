@@ -29,7 +29,7 @@ class Bullet():
 class Tank():
     def __init__(self, x, y):
         #tank sett
-        self.shoot_delay = 400  # миллисекунды между выстрелами
+        self.shoot_delay = 400  # shoot delay in milliseconds
         self.last_shot_time = 0
         self.pos = pygame.Vector2(x, y)
         self.angle = 0         # tank angle
@@ -52,7 +52,7 @@ class Tank():
         self.turret_surf.fill((50, 50, 50))
     
     def player_shoot(self):
-        current_time = pygame.time.get_ticks()  # время с начала игры в мс
+        current_time = pygame.time.get_ticks()  # time counter
         if current_time - self.last_shot_time >= self.shoot_delay:
             total_turret_angle = self.angle + self.turret_angle     
             rad_turret = math.radians(total_turret_angle)
@@ -120,15 +120,14 @@ class Tank():
         screen.blit(rotated_body, body_rect)
         screen.blit(rotated_turret, turret_rect)
 
-        # === Draw aiming line ===
-        aim_length = 9000  # длина линии прицела
+        # draw aiming line
+        aim_length = 9000
         rad_turret = math.radians(total_turret_angle)
         aim_direction = pygame.Vector2(math.cos(rad_turret), -math.sin(rad_turret))
         start_pos = self.pos
         end_pos = self.pos + aim_direction * aim_length
-        # === Полупрозрачная линия прицела ===
         aim_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
-        aim_color = (255, 0, 0, 50)  # RGBA: красный + 100 прозрачности (из 255)
+        aim_color = (255, 0, 0, 50) 
         pygame.draw.line(aim_surface, aim_color, start_pos, end_pos, 2)
         screen.blit(aim_surface, (0, 0))
 

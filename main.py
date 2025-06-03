@@ -27,20 +27,20 @@ if menu_action == "quit":
     pygame.quit()
     sys.exit()
 
-tank = Tank(100, 100)
+tank = Tank(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-# Список врагов и параметры спавна
+# list of enemies
 enemies = []
-enemy_spawn_delay = 4000
+enemy_spawn_delay = 3000
 last_spawn_time = pygame.time.get_ticks()
 
-# Счётчик киллов и шрифт для отображения
+# kill counter
 kill_count = 0
 font = pygame.font.SysFont(None, 36)
 
 running = True
 while running:
-    dt = clock.tick(FPS)
+    dt = clock.tick(FPS) # fps lock
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -51,31 +51,31 @@ while running:
     keys = pygame.key.get_pressed()
     tank.update(keys)
 
-    # Спавн врагов
+    # enemy spawn
     current_time = pygame.time.get_ticks()
     if current_time - last_spawn_time > enemy_spawn_delay:
         enemies.append(spawn_enemy_outside_screen())
         last_spawn_time = current_time
 
-    # Обновление врагов и проверка попаданий
+    # enemy update cycle
     for e in enemies:
         e.update(tank.pos)
-        # проверяем каждую пулю
+        # bullet update (check for hits)
         for bullet in tank.bullets:
             if bullet.get_rect().colliderect(e.get_rect()) and e.speed != 0:
                 e.on_hit()
                 kill_count += 1
 
-    # Удаляем тех, у кого speed == 0 (то есть «убитых»)
+    # enemies alive checker
     enemies = [e for e in enemies if e.speed != 0]
 
-    # Рендеринг
+    # draw
     screen.fill((100, 100, 100))
     tank.draw(screen)
     for e in enemies:
         e.draw(screen)
 
-    # Отображаем счётчик киллов
+    # kill counter render
     kill_text = font.render(f"Kills: {kill_count}", True, (255, 255, 255))
     screen.blit(kill_text, (10, 10))
 

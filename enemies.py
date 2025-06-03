@@ -16,7 +16,7 @@ class enemy():
         pygame.draw.rect(surface, self.color, (self.pos.x, self.pos.y, self.size, self.size))
     
     def get_rect(self):
-        return pygame.Rect(self.pos.x - self.size//2, self.pos.y - self.size//2, self.size, self.size)
+        return pygame.Rect(self.pos.x-2, self.pos.y-2, self.size+4, self.size+4)
 
     def on_hit(self):
         self.color = (0, 0, 0)
