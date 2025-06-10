@@ -1,12 +1,11 @@
 import pygame
-from settings import calc_distance
 
 class enemy():
-    def __init__(self, x, y):
+    def __init__(self, x, y, speed=1.5):
         self.pos = pygame.Vector2(x, y)
         self.color = (255, 0, 0)
         self.size = 40
-        self.speed = 2
+        self.speed = speed
 
     def update(self, player_pos):
             direction = (player_pos - self.pos).normalize()

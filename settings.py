@@ -1,4 +1,4 @@
-SCREEN_WIDTH = 1600
+SCREEN_WIDTH = 1600  # default settings
 SCREEN_HEIGHT = 900
 FPS = 60
 

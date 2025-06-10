@@ -1,7 +1,5 @@
 import pygame
 import math
-from settings import SCREEN_HEIGHT, SCREEN_WIDTH
-import random
 
 class Bullet():
     def __init__(self, pos, direction):
@@ -101,12 +99,13 @@ class Tank():
         # idk
         self.turret_angle %= 360
 
+
         for bullet in self.bullets:
             bullet.update()
 
-        self.bullets = [b for b in self.bullets if 0 <= b.pos.x <= SCREEN_WIDTH and 0 <= b.pos.y <= SCREEN_HEIGHT]
 
     def draw(self, screen):
+
         # draw tank rotation
         rotated_body = pygame.transform.rotate(self.body_surf, self.angle)
         body_rect = rotated_body.get_rect(center=self.pos)
@@ -126,7 +125,7 @@ class Tank():
         aim_direction = pygame.Vector2(math.cos(rad_turret), -math.sin(rad_turret))
         start_pos = self.pos
         end_pos = self.pos + aim_direction * aim_length
-        aim_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        aim_surface = pygame.Surface((3000, 3000), pygame.SRCALPHA)
         aim_color = (255, 0, 0, 50) 
         pygame.draw.line(aim_surface, aim_color, start_pos, end_pos, 2)
         screen.blit(aim_surface, (0, 0))
