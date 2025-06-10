@@ -43,11 +43,8 @@ class Tank():
 
         self.bullets = []
 
-        # temporary
-        self.body_surf = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
-        self.body_surf.fill((0, 100, 0))
-        self.turret_surf = pygame.Surface((self.width // 2, self.height // 3), pygame.SRCALPHA)
-        self.turret_surf.fill((50, 50, 50))
+        self.body_surf = pygame.image.load("./assets/tank.png").convert_alpha()
+        self.turret_surf = pygame.image.load("./assets/turret.png").convert_alpha()
     
     def player_shoot(self):
         current_time = pygame.time.get_ticks()  # time counter
@@ -123,7 +120,7 @@ class Tank():
         aim_length = 9000
         rad_turret = math.radians(total_turret_angle)
         aim_direction = pygame.Vector2(math.cos(rad_turret), -math.sin(rad_turret))
-        start_pos = self.pos
+        start_pos = self.pos + aim_direction * 50
         end_pos = self.pos + aim_direction * aim_length
         aim_surface = pygame.Surface((3000, 3000), pygame.SRCALPHA)
         aim_color = (255, 0, 0, 50) 
