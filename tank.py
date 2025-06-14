@@ -82,7 +82,6 @@ class Tank():
         if self.speed < -self.max_speed / 2:
             self.speed = -self.max_speed / 2 
 
-        # moving
         rad = math.radians(self.angle)
         direction = pygame.Vector2(math.cos(rad), -math.sin(rad))
         self.pos += direction * self.speed
@@ -96,10 +95,15 @@ class Tank():
         # idk
         self.turret_angle %= 360
 
+        # keep tank inside screen
+        screen_width, screen_height = pygame.display.get_surface().get_size()
+        half_w = self.width // 2
+        half_h = self.height // 2
+        self.pos.x = max(half_w, min(screen_width - half_w, self.pos.x))
+        self.pos.y = max(half_h, min(screen_height - half_h, self.pos.y))
 
         for bullet in self.bullets:
             bullet.update()
-
 
     def draw(self, screen):
 
