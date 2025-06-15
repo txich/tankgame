@@ -62,6 +62,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Tank Game")
 clock = pygame.time.Clock()
 
+# load background image and scale to screen size
+background = pygame.image.load("./assets/background.png").convert()
+background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
 menu_action = show_menu(screen)
 if menu_action == "quit":
     pygame.quit()
@@ -150,10 +154,8 @@ while True:
                         if lives <= 0:
                             running = False
 
-                enemies = [e for e in enemies if e.speed != 0]
-
                 # draw
-                screen.fill((100, 100, 100))
+                screen.blit(background, (0, 0))
                 tank.draw(screen)
                 for e in enemies:
                     e.draw(screen)
@@ -166,7 +168,14 @@ while True:
 
                 pygame.display.flip()
 
-            # после game over
+
+                current_time = pygame.time.get_ticks()
+                enemies = [
+                    e for e in enemies
+                    if not (e.exploding and current_time - e.explosion_start > e.explosion_duration)
+                ]
+
+            # after game over
             action = show_game_over(screen, kill_count)
             if action == "restart":
                 continue  # restart the game loop

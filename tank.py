@@ -6,8 +6,8 @@ class Bullet():
         self.speed = 30
         self.direction = direction
         self.pos = pygame.Vector2(pos)
-        self.surface = pygame.Surface((6, 6), pygame.SRCALPHA)
-        self.surface.fill((0, 0, 0)) 
+        self.surface = pygame.Surface((6, 6))
+        self.surface.fill((200, 200, 0)) 
         self.rect = self.surface.get_rect(center=self.pos)
         self.alive = True
 
@@ -127,7 +127,7 @@ class Tank():
         start_pos = self.pos + aim_direction * 50
         end_pos = self.pos + aim_direction * aim_length
         aim_surface = pygame.Surface((3000, 3000), pygame.SRCALPHA)
-        aim_color = (255, 0, 0, 50) 
+        aim_color = (0, 255, 255, 50) 
         pygame.draw.line(aim_surface, aim_color, start_pos, end_pos, 2)
         screen.blit(aim_surface, (0, 0))
 

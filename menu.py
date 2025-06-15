@@ -10,12 +10,12 @@ def show_menu(screen):
     while True:
         screen.fill((0, 0, 0))
         title_text = font.render("TANK GAME", True, (255, 255, 255))
-        screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, 100))
+        screen.blit(title_text, (pygame.display.get_surface().get_size()[0]// 2 - title_text.get_width() // 2, 100))
 
         for i, option in enumerate(options):
             color = (255, 255, 0) if i == selected else (200, 200, 200)
             option_text = font.render(option, True, color)
-            screen.blit(option_text, (SCREEN_WIDTH // 2 - option_text.get_width() // 2, 250 + i * 70))
+            screen.blit(option_text, (pygame.display.get_surface().get_size()[0] // 2 - option_text.get_width() // 2, 250 + i * 70))
 
         pygame.display.flip()
 
